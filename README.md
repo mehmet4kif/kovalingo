@@ -1,0 +1,2 @@
+# kualingo
+Kualingo dil uygulaması
