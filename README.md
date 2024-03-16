@@ -1,2 +1,0 @@
-# kovalingo
-Kovalingo dil uygulaması
