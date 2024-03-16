@@ -1,2 +1,2 @@
-# kualingo
-Kualingo dil uygulaması
+# kovalingo
+Kovalingo dil uygulaması
