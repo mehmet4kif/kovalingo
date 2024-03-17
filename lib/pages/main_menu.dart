@@ -21,10 +21,9 @@ class MainMenu extends StatelessWidget {
                   children: [
                     Expanded(
                       child: Container(
-                        color: Colors.red,
                         child: Image.asset(
-                          "assets/images/menuLogo.png",
-                          fit: BoxFit.cover,
+                          "assets/images/menuLogo2.png",
+                          fit: BoxFit.fitWidth,
                         ),
                       ),
                     ),
