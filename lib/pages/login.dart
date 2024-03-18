@@ -1,135 +1,10 @@
-import 'dart:async';
-import 'package:connectivity/connectivity.dart';
-import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kovalingo/firebase_options.dart';
-
-import 'package:kovalingo/theme_provider.dart';
-
-import 'package:kovalingo/pages/main_menu.dart';
 import 'package:kovalingo/pages/signup.dart';
-import 'package:provider/provider.dart';
+import 'main_menu.dart';
+import 'package:kovalingo/main.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-
-import 'package:nice_buttons/nice_buttons.dart';
-
-void main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp(
-    options: DefaultFirebaseOptions.currentPlatform,
-  );
-  runApp(MyApp());
-} // Firebase'in başlatılması
-
-class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
-
-  @override
-  _MyAppState createState() => _MyAppState();
-}
-
-class _MyAppState extends State<MyApp> {
-  late bool _isLoading;
-  late bool _isConnected;
-
-  StreamSubscription? _connectionSubscription;
-
-  @override
-  void initState() {
-    super.initState();
-    _isLoading = true;
-    _isConnected = false;
-    _checkConnectivity(); // İnternet bağlantısını kontrol etmek için işlevi çağırın
-
-    // Firebase'in başlatılması
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      setState(() {
-        _isLoading = false;
-      });
-    });
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
-    _connectionSubscription?.cancel(); // Aboneliği iptal et
-  }
-
-  // İnternet bağlantısını kontrol etmek için işlev
-  void _checkConnectivity() {
-    _connectionSubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      setState(() {
-        _isConnected = (result != ConnectivityResult.none);
-      });
-    });
-  }
-
-  @override
-  Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (context) => ThemeProvider(),
-      child: Consumer<ThemeProvider>(
-        builder: (BuildContext context, ThemeProvider value, Widget? child) {
-          // Eğer internet bağlantısı yoksa uygun bir mesaj gösterin
-          if (!_isConnected) {
-            return MaterialApp(
-              theme: ThemeData.light(),
-              debugShowCheckedModeBanner: false,
-              home: Scaffold(
-                body: Center(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(
-                        Icons.wifi_off,
-                        size: 50,
-                      ),
-                      Text(
-                        'İnternet bağlantınız yok :(',
-                        style: TextStyle(fontSize: 18),
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            );
-          }
-          // Eğer internet bağlantısı varsa normal şekilde devam edin
-          return MaterialApp(
-            theme: Provider.of<ThemeProvider>(context).isNightMode
-                ? ThemeData.dark()
-                : ThemeData.light().copyWith(
-                    primaryColor: Colors.teal,
-                    colorScheme: ColorScheme.fromSwatch(
-                      primarySwatch: Colors.teal,
-                    ),
-                  ),
-            debugShowCheckedModeBanner: false,
-            home: _isLoading
-                ? const CircularProgressIndicator()
-                : AuthenticationWrapper(),
-          );
-        },
-      ),
-    );
-  }
-}
-
-class AuthenticationWrapper extends StatelessWidget {
-  @override
-  Widget build(BuildContext context) {
-    final User? firebaseUser = FirebaseAuth.instance.currentUser;
-    if (firebaseUser != null) {
-      return MainMenu();
-    } else {
-      return SignInScreen();
-    }
-  }
-}
+import 'package:nice_buttons/nice_buttons.dart'; // Main menu ekranının olduğu dosyanın import edildiğini varsayalım.
 
 String _translateFirebaseError(String errorCode) {
   switch (errorCode) {
@@ -148,6 +23,8 @@ String _translateFirebaseError(String errorCode) {
 }
 
 class SignInScreen extends StatelessWidget {
+  SignInScreen({super.key});
+
   void _signInWithEmailAndPassword(BuildContext context) async {
     try {
       // E-posta ve şifre ile giriş yap
