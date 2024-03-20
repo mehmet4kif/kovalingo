@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/pages/words_sub_pages/add_word_manual.dart';
 import 'package:kovalingo/pages/words_sub_pages/word_packages_page.dart';
 import 'package:kovalingo/widgets/custom_menu_button.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
@@ -15,20 +16,21 @@ class WordsPage extends StatelessWidget {
         title: Text("Kelimelerim"),
         backgroundColor: CustomColors.appBarBlue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          children: [
-            const Text("Kelime sayısı \$kelime"),
-            const SizedBox(height: 16,),
-            CustomMenuButton(title: "Manuel Kelime Ekleme", onPressed: () {}),
-            CustomMenuButton(
-                title: "Hazır Paketlerden Kelime Ekle", onPressed: () {
-                  Navigator.push(context, CustomNavigator(WordPackagePage()));
-            }),
-            CustomMenuButton(title: "Kelimelerim", onPressed: () {}),
-          ],
-        ),
+      body: Column(
+        children: [
+          const SizedBox(height: 16,),
+          const Text("Kelime sayısı \$kelime"),
+
+          CustomMenuButton(title: "Manuel Kelime Ekleme", onPressed: () {
+            Navigator.push(context, CustomNavigator(AddWordManual()));
+
+          }),
+          CustomMenuButton(
+              title: "Hazır Paketlerden Kelime Ekle", onPressed: () {
+                Navigator.push(context, CustomNavigator(WordPackagePage()));
+          }),
+          CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {}),
+        ],
       ),
     );
   }

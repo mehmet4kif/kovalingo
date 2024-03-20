@@ -1,9 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/pages/analyses_page.dart';
+import 'package:kovalingo/pages/settings_page.dart';
+import 'package:kovalingo/pages/start_test_page.dart';
 import 'package:kovalingo/pages/words_page.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
 
 import '../widgets/custom_menu_button.dart';
+import 'how_it_works_page.dart';
 class MainMenu extends StatelessWidget {
   const MainMenu({Key? key}) : super(key: key);
 
@@ -33,12 +37,13 @@ class MainMenu extends StatelessWidget {
               Expanded(
                 flex: 8,
                 child: SingleChildScrollView(
-                  padding: const EdgeInsets.all(16.0),
                   child: Column(
                     children: [
                       CustomMenuButton(
                         title: 'Teste Başla',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, CustomNavigator(const StartTestPage()));
+                        },
                       ),
                       CustomMenuButton(
                         title: 'Kelimlelerim',
@@ -48,15 +53,21 @@ class MainMenu extends StatelessWidget {
                       ),
                       CustomMenuButton(
                         title: 'Analizlerim',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, CustomNavigator(const AnalysesPage()));
+                        },
                       ),
                       CustomMenuButton(
                         title: 'Ayarlar',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, CustomNavigator(const SettingsPage()));
+                        },
                       ),
                       CustomMenuButton(
                         title: 'Nasıl Çalışır',
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context, CustomNavigator(const HowItWorksPage()));
+                        },
                       ),
 
                     ],
