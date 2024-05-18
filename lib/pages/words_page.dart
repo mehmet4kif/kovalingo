@@ -5,6 +5,8 @@ import 'package:kovalingo/pages/words_sub_pages/word_packages_page.dart';
 import 'package:kovalingo/widgets/custom_menu_button.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
 
+import 'image_picker_test.dart';
+
 class WordsPage extends StatelessWidget {
   const WordsPage({super.key});
 
@@ -13,23 +15,32 @@ class WordsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: CustomColors.backgroundBlue,
       appBar: AppBar(
-        title: Text("Kelimelerim"),
+        title: const Text("Kelimelerim"),
         backgroundColor: CustomColors.appBarBlue,
       ),
       body: Column(
         children: [
-          const SizedBox(height: 16,),
+          const SizedBox(
+            height: 16,
+          ),
           const Text("Kelime sayısı \$kelime"),
-
-          CustomMenuButton(title: "Manuel Kelime Ekleme", onPressed: () {
-            Navigator.push(context, CustomNavigator(AddWordManual()));
-
-          }),
           CustomMenuButton(
-              title: "Hazır Paketlerden Kelime Ekle", onPressed: () {
+              title: "Manuel Kelime Ekleme",
+              onPressed: () {
+                Navigator.push(context, CustomNavigator(AddWordManual()));
+              }),
+          CustomMenuButton(
+              title: "Hazır Paketlerden Kelime Ekle",
+              onPressed: () {
                 Navigator.push(context, CustomNavigator(WordPackagePage()));
-          }),
+              }),
+
           CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {}),
+          CustomMenuButton(
+              title: "Resim Seçme Test",
+              onPressed: () {
+                Navigator.push(context, CustomNavigator(const PickImage()));
+              }),
         ],
       ),
     );

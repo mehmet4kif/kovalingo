@@ -1,25 +1,103 @@
 import 'package:flutter/material.dart';
-import 'package:kovalingo/constants/colors.dart';
+import 'package:image_picker/image_picker.dart';
+import 'dart:io';
+import '../../constants/colors.dart';
 
-class AddWordManual extends StatelessWidget {
-  AddWordManual({Key? key});
+class AddWordManual extends StatefulWidget {
+  const AddWordManual({Key? key}) : super(key: key);
 
-  void _onSubmitPressed(
-      BuildContext context, List<TextEditingController> controllers) {
-    for (var controller in controllers) {
-      print(controller.text);
+  @override
+  State<AddWordManual> createState() => _AddWordManualState();
+}
+
+class _AddWordManualState extends State<AddWordManual> {
+  File? _image;
+  final List<TextEditingController> _controllers = [
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+    TextEditingController(),
+  ];
+
+  Future<void> _pickImage() async {
+    final picker = ImagePicker();
+    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+
+    setState(() {
+      if (pickedFile != null) {
+        _image = File(pickedFile.path);
+      } else {
+        print('Resim seçme işlemi iptal edildi.');
+      }
+    });
+  }
+
+  void _onSubmitPressed(BuildContext context) {
+    // Seçilen resim, İngilizce kelime, Türkçe kelime, İngilizce cümle ve Türkçe cümle bilgilerini al
+    File? selectedImage = _image;
+    String englishWord = _controllers[0].text;
+    String turkishWord = _controllers[1].text;
+    String englishSentence = _controllers[2].text;
+    String turkishSentence = _controllers[3].text;
+
+    // Eğer herhangi bir alan boşsa kullanıcıya uyarı ver
+    if (selectedImage == null ||
+        englishWord.isEmpty ||
+        turkishWord.isEmpty ||
+        englishSentence.isEmpty ||
+        turkishSentence.isEmpty) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Uyarı'),
+            content: Text('Lütfen tüm bilgileri girin ve bir resim seçin.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Tamam'),
+              ),
+            ],
+          );
+        },
+      );
+    } else {
+      // Tüm bilgiler doluysa, seçilen resmi ve diğer bilgileri kullanarak flashcard'ı oluştur
+      // Örneğin, bu bilgileri bir veritabanına kaydedebilir veya başka bir işlem yapabilirsiniz.
+      // Burada sadece bilgileri yazdıralım:
+      print('Seçilen Resim: $selectedImage');
+      print('İngilizce Kelime: $englishWord');
+      print('Türkçe Kelime: $turkishWord');
+      print('İngilizce Cümle: $englishSentence');
+      print('Türkçe Cümle: $turkishSentence');
+
+      // İşlem tamamlandıktan sonra, kullanıcıya bilginin kaydedildiğine dair bir bildirim gösterebilirsiniz.
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: Text('Bilgi'),
+            content: Text('Bilgileriniz başarıyla kaydedildi.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: Text('Tamam'),
+              ),
+            ],
+          );
+        },
+      );
     }
   }
 
+
+
   @override
   Widget build(BuildContext context) {
-    List<TextEditingController> controllers = [
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-      TextEditingController(),
-    ];
-
     return Scaffold(
       backgroundColor: CustomColors.backgroundBlue,
       appBar: AppBar(
@@ -32,19 +110,19 @@ class AddWordManual extends StatelessWidget {
           children: [
             CustomTextField(
               labelText: 'İngilizce Kelime',
-              controller: controllers[0],
+              controller: _controllers[0],
             ),
             CustomTextField(
               labelText: 'Türkçe Kelime',
-              controller: controllers[1],
+              controller: _controllers[1],
             ),
             CustomTextField(
               labelText: 'İngilizce Cümle',
-              controller: controllers[2],
+              controller: _controllers[2],
             ),
             CustomTextField(
               labelText: 'Türkçe Cümle',
-              controller: controllers[3],
+              controller: _controllers[3],
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -54,7 +132,7 @@ class AddWordManual extends StatelessWidget {
                   style: TextStyle(color: Colors.black),
                 ),
                 ElevatedButton(
-                  onPressed: () {},
+                  onPressed: _pickImage,
                   child: Text('Seç'),
                 ),
               ],
@@ -71,10 +149,11 @@ class AddWordManual extends StatelessWidget {
                 ),
                 ElevatedButton(
                   onPressed: () {
-                    _onSubmitPressed(context, controllers);
+                    _onSubmitPressed(context);
                   },
                   child: Text('Onayla'),
                 ),
+
               ],
             ),
           ],
