@@ -6,6 +6,7 @@ import 'package:kovalingo/widgets/custom_menu_button.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
 
 import 'image_picker_test.dart';
+import 'my_words_page.dart';
 
 class WordsPage extends StatelessWidget {
   const WordsPage({super.key});
@@ -34,8 +35,9 @@ class WordsPage extends StatelessWidget {
               onPressed: () {
                 Navigator.push(context, CustomNavigator(WordPackagePage()));
               }),
-
-          CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {}),
+          CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {
+            Navigator.push(context, CustomNavigator(const MyWords()));
+          }),
           CustomMenuButton(
               title: "Resim Seçme Test",
               onPressed: () {

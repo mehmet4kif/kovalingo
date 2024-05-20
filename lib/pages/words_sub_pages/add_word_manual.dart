@@ -1,10 +1,12 @@
-import 'package:flutter/material.dart';
+import 'package:kovalingo/words/write_word.dart';
 import 'package:image_picker/image_picker.dart';
-import 'dart:io';
+import 'package:flutter/material.dart';
+import '../../classes/wordData.dart';
 import '../../constants/colors.dart';
+import 'dart:io';
 
 class AddWordManual extends StatefulWidget {
-  const AddWordManual({Key? key}) : super(key: key);
+  const AddWordManual({super.key});
 
   @override
   State<AddWordManual> createState() => _AddWordManualState();
@@ -26,13 +28,14 @@ class _AddWordManualState extends State<AddWordManual> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
+        print(_image);
       } else {
         print('Resim seçme işlemi iptal edildi.');
       }
     });
   }
 
-  void _onSubmitPressed(BuildContext context) {
+  void _onSubmitPressed(BuildContext context) async {
     // Seçilen resim, İngilizce kelime, Türkçe kelime, İngilizce cümle ve Türkçe cümle bilgilerini al
     File? selectedImage = _image;
     String englishWord = _controllers[0].text;
@@ -50,42 +53,47 @@ class _AddWordManualState extends State<AddWordManual> {
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Uyarı'),
-            content: Text('Lütfen tüm bilgileri girin ve bir resim seçin.'),
+            title: const Text('Uyarı'),
+            content: const Text('Lütfen tüm bilgileri girin ve bir resim seçin.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Tamam'),
+                child: const Text('Tamam'),
               ),
             ],
           );
         },
       );
     } else {
-      // Tüm bilgiler doluysa, seçilen resmi ve diğer bilgileri kullanarak flashcard'ı oluştur
-      // Örneğin, bu bilgileri bir veritabanına kaydedebilir veya başka bir işlem yapabilirsiniz.
-      // Burada sadece bilgileri yazdıralım:
-      print('Seçilen Resim: $selectedImage');
-      print('İngilizce Kelime: $englishWord');
-      print('Türkçe Kelime: $turkishWord');
-      print('İngilizce Cümle: $englishSentence');
-      print('Türkçe Cümle: $turkishSentence');
+      // Verileri WordData nesnesine paketle
+      WordData wordData = WordData(
+        turkishWord: turkishWord,
+        englishWord: englishWord,
+        turkishSentence: turkishSentence,
+        englishSentence: englishSentence,
+        imagePath: selectedImage.path,
+      );
 
-      // İşlem tamamlandıktan sonra, kullanıcıya bilginin kaydedildiğine dair bir bildirim gösterebilirsiniz.
+      // WriteWord sınıfını kullanarak bilgileri JSON dosyasına kaydet
+      WriteWord writeWord = WriteWord();
+      await writeWord.addItemToWordList(
+          wordData
+      );
+
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
-            title: Text('Bilgi'),
-            content: Text('Bilgileriniz başarıyla kaydedildi.'),
+            title: const Text('Bilgi'),
+            content: const Text('Bilgileriniz başarıyla kaydedildi.'),
             actions: [
               TextButton(
                 onPressed: () {
                   Navigator.pop(context);
                 },
-                child: Text('Tamam'),
+                child: const Text('Tamam'),
               ),
             ],
           );
@@ -93,7 +101,6 @@ class _AddWordManualState extends State<AddWordManual> {
       );
     }
   }
-
 
 
   @override
@@ -104,59 +111,60 @@ class _AddWordManualState extends State<AddWordManual> {
         title: const Text('Manual Kelime Ekleme'),
         backgroundColor: CustomColors.appBarBlue,
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          children: [
-            CustomTextField(
-              labelText: 'İngilizce Kelime',
-              controller: _controllers[0],
-            ),
-            CustomTextField(
-              labelText: 'Türkçe Kelime',
-              controller: _controllers[1],
-            ),
-            CustomTextField(
-              labelText: 'İngilizce Cümle',
-              controller: _controllers[2],
-            ),
-            CustomTextField(
-              labelText: 'Türkçe Cümle',
-              controller: _controllers[3],
-            ),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                const Text(
-                  'Resim Seç',
-                  style: TextStyle(color: Colors.black),
-                ),
-                ElevatedButton(
-                  onPressed: _pickImage,
-                  child: Text('Seç'),
-                ),
-              ],
-            ),
-            const Spacer(),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    // İptal butonuna basılınca yapılacak işlemler
-                  },
-                  child: Text('İptal Et'),
-                ),
-                ElevatedButton(
-                  onPressed: () {
-                    _onSubmitPressed(context);
-                  },
-                  child: Text('Onayla'),
-                ),
-
-              ],
-            ),
-          ],
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            children: [
+              CustomTextField(
+                labelText: 'İngilizce Kelime',
+                controller: _controllers[0],
+              ),
+              CustomTextField(
+                labelText: 'Türkçe Kelime',
+                controller: _controllers[1],
+              ),
+              CustomTextField(
+                labelText: 'İngilizce Cümle',
+                controller: _controllers[2],
+              ),
+              CustomTextField(
+                labelText: 'Türkçe Cümle',
+                controller: _controllers[3],
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  const Text(
+                    'Resim Seç',
+                    style: TextStyle(color: Colors.black),
+                  ),
+                  ElevatedButton(
+                    onPressed: _pickImage,
+                    child: const Text('Seç'),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 20), // Add some space before the buttons
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      // İptal butonuna basılınca yapılacak işlemler
+                    },
+                    child: const Text('İptal Et'),
+                  ),
+                  ElevatedButton(
+                    onPressed: () {
+                      _onSubmitPressed(context);
+                    },
+                    child: const Text('Onayla'),
+                  ),
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );
@@ -167,7 +175,7 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
 
-  const CustomTextField({
+  const CustomTextField({super.key,
     required this.labelText,
     required this.controller,
   });
@@ -187,3 +195,5 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
+
+

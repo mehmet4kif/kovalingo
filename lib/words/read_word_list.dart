@@ -3,7 +3,7 @@ import 'package:path/path.dart';
 import 'dart:convert';
 import 'dart:io';
 
-class AnalysesReader {
+class ReadWord {
   Future<String> get _localPath async {
     final directory = await getApplicationDocumentsDirectory();
     return directory.path;
@@ -35,13 +35,17 @@ class AnalysesReader {
     }
   }
 
-  Future<Map<String, dynamic>?> getRawData() async {
+  Future<List<dynamic>?> getWordList() async {
     try {
       File file = await _localFile;
-      if (file != null && await file.exists()) {
+      if (await file.exists()) {
         String content = await file.readAsString();
         if (content.isNotEmpty) {
-          return jsonDecode(content);
+          Map<String, dynamic> rawData = jsonDecode(content);
+          // 'words' alanı varsa ve bir liste ise, onu döndür
+          if (rawData.containsKey('words') && rawData['words'] is List) {
+            return rawData['words'];
+          }
         }
       }
     } catch (e) {
@@ -49,4 +53,18 @@ class AnalysesReader {
     }
     return null;
   }
+
+  Future<int> getTotalWordCount() async {
+    try {
+      List<dynamic>? wordList = await getWordList();
+      if (wordList != null) {
+        return wordList.length;
+      }
+    } catch (e) {
+      print('Kelime sayısı alınırken hata oluştu: $e');
+    }
+    return 0; // Hata durumunda veya liste boşsa 0 döndürülür
+  }
+
 }
+//todo null check yapsana
