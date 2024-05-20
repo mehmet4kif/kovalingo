@@ -1,7 +1,6 @@
 import 'package:kovalingo/words/read_word_list.dart';
+import '../classes/word_data_class.dart';
 import 'dart:convert';
-
-import '../classes/wordData.dart';
 
 class WriteWord {
   ReadWord wordReader = ReadWord();
@@ -42,4 +41,16 @@ class WriteWord {
       print('Ürün analizi eklenirken hata oluştu: $e');
     }
   }
+
+  Future<void> addItemPack(List<WordData> wordList) async {
+    try {
+      for (WordData wordData in wordList) {
+        await addItemToWordListJson(wordData);
+      }
+    } catch (e) {
+      print('Kelime paketi eklenirken hata oluştu: $e');
+    }
+  }
 }
+
+

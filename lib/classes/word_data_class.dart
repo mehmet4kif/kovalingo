@@ -12,4 +12,5 @@ class WordData {
     required this.englishSentence,
     required this.imagePath,
   });
+
 }

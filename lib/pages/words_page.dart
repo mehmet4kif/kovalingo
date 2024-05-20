@@ -24,7 +24,6 @@ class WordsPage extends StatelessWidget {
           const SizedBox(
             height: 16,
           ),
-          const Text("Kelime sayısı \$kelime"),
           CustomMenuButton(
               title: "Manuel Kelime Ekleme",
               onPressed: () {

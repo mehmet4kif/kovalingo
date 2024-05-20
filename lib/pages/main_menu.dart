@@ -8,10 +8,12 @@ import 'package:kovalingo/widgets/custom_navigator.dart';
 
 import '../widgets/custom_menu_button.dart';
 import 'how_it_works_page.dart';
+
 class MainMenu extends StatelessWidget {
-  const MainMenu({Key? key}) : super(key: key);
+  const MainMenu({super.key});
 
   @override
+
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(

@@ -50,10 +50,10 @@ class WordPackagePage extends StatelessWidget {
         backgroundColor: CustomColors.appBarBlue,
       ),
       body: GridView.count(
-        padding: EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(16.0),
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
-        crossAxisCount: 2,
+        crossAxisCount: 4,
         children: wordPackages,
       ),
     );

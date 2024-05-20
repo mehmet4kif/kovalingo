@@ -1,13 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/pages/main_menu.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
-void main() {
+Future<void> main() async {
   runApp(const MyApp());
+
 }
 
 class MyApp extends StatelessWidget {
   const MyApp({Key? key});
+
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +25,7 @@ class MyApp extends StatelessWidget {
 }
 
 class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title});
+  const MyHomePage({super.key, required this.title});
 
   final String title;
 

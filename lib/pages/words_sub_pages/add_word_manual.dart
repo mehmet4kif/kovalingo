@@ -1,7 +1,7 @@
 import 'package:kovalingo/words/write_word.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
-import '../../classes/wordData.dart';
+import '../../classes/word_data_class.dart';
 import '../../constants/colors.dart';
 import 'dart:io';
 
@@ -14,12 +14,7 @@ class AddWordManual extends StatefulWidget {
 
 class _AddWordManualState extends State<AddWordManual> {
   File? _image;
-  final List<TextEditingController> _controllers = [
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-    TextEditingController(),
-  ];
+  final List<TextEditingController> _controllers = List.generate(4, (_) => TextEditingController());
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -36,25 +31,20 @@ class _AddWordManualState extends State<AddWordManual> {
   }
 
   void _onSubmitPressed(BuildContext context) async {
-    // Seçilen resim, İngilizce kelime, Türkçe kelime, İngilizce cümle ve Türkçe cümle bilgilerini al
-    File? selectedImage = _image;
-    String englishWord = _controllers[0].text;
-    String turkishWord = _controllers[1].text;
-    String englishSentence = _controllers[2].text;
-    String turkishSentence = _controllers[3].text;
+    String turkishWord = _controllers[0].text;
+    String englishWord = _controllers[1].text;
+    String turkishSentence = _controllers[2].text;
+    String englishSentence = _controllers[3].text;
+    String imagePath = _image?.path ?? "";
 
-    // Eğer herhangi bir alan boşsa kullanıcıya uyarı ver
-    if (selectedImage == null ||
-        englishWord.isEmpty ||
-        turkishWord.isEmpty ||
-        englishSentence.isEmpty ||
-        turkishSentence.isEmpty) {
+    // Türkçe kelime ve İngilizce kelime zorunlu olduğu için boş olamazlar
+    if (turkishWord.isEmpty || englishWord.isEmpty) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Uyarı'),
-            content: const Text('Lütfen tüm bilgileri girin ve bir resim seçin.'),
+            content: const Text('Lütfen en az Türkçe ve İngilizce kelimeyi girin.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -73,14 +63,12 @@ class _AddWordManualState extends State<AddWordManual> {
         englishWord: englishWord,
         turkishSentence: turkishSentence,
         englishSentence: englishSentence,
-        imagePath: selectedImage.path,
+        imagePath: imagePath,
       );
 
       // WriteWord sınıfını kullanarak bilgileri JSON dosyasına kaydet
       WriteWord writeWord = WriteWord();
-      await writeWord.addItemToWordList(
-          wordData
-      );
+      await writeWord.addItemToWordList(wordData);
 
       showDialog(
         context: context,
@@ -101,7 +89,6 @@ class _AddWordManualState extends State<AddWordManual> {
       );
     }
   }
-
 
   @override
   Widget build(BuildContext context) {
@@ -175,7 +162,8 @@ class CustomTextField extends StatelessWidget {
   final String labelText;
   final TextEditingController controller;
 
-  const CustomTextField({super.key,
+  const CustomTextField({
+    super.key,
     required this.labelText,
     required this.controller,
   });
@@ -195,5 +183,3 @@ class CustomTextField extends StatelessWidget {
     );
   }
 }
-
-
