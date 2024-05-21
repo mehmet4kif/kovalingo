@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/colors.dart';
 import 'package:kovalingo/pages/analyses_page.dart';
 import 'package:kovalingo/pages/settings_page.dart';
-import 'package:kovalingo/pages/start_test_page.dart';
+import 'package:kovalingo/pages/start_quiz_page.dart';
 import 'package:kovalingo/pages/words_page.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
 

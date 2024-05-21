@@ -5,7 +5,7 @@ import 'package:kovalingo/pages/words_sub_pages/word_packages_page.dart';
 import 'package:kovalingo/widgets/custom_menu_button.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
 
-import 'image_picker_test.dart';
+import 'admin_panel_page.dart';
 import 'my_words_page.dart';
 
 class WordsPage extends StatelessWidget {
@@ -27,7 +27,7 @@ class WordsPage extends StatelessWidget {
           CustomMenuButton(
               title: "Manuel Kelime Ekleme",
               onPressed: () {
-                Navigator.push(context, CustomNavigator(AddWordManual()));
+                Navigator.push(context, CustomNavigator(const AddWordManual()));
               }),
           CustomMenuButton(
               title: "Hazır Paketlerden Kelime Ekle",
@@ -38,9 +38,9 @@ class WordsPage extends StatelessWidget {
             Navigator.push(context, CustomNavigator(const MyWords()));
           }),
           CustomMenuButton(
-              title: "Resim Seçme Test",
+              title: "Admin Panel",
               onPressed: () {
-                Navigator.push(context, CustomNavigator(const PickImage()));
+                Navigator.push(context, CustomNavigator(const AdminPanel()));
               }),
         ],
       ),
