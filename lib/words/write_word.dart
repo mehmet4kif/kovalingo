@@ -3,7 +3,7 @@ import '../classes/word_data_class.dart';
 import 'dart:convert';
 
 class WriteWord {
-  ReadWord wordReader = ReadWord();
+  ReadWord readWord = ReadWord();
 
   addItemToWordList(WordData wordData) async {
     await addItemToWordListJson(wordData);
@@ -11,7 +11,7 @@ class WriteWord {
 
   Future<void> addItemToWordListJson(WordData wordData) async {
     try {
-      List<dynamic>? wordList = await wordReader.getWordList();
+      List<dynamic>? wordList = await readWord.getWordList();
 
       // Get the current date
       DateTime now = DateTime.now();
@@ -36,7 +36,7 @@ class WriteWord {
 
       // Write the updated data back to the JSON file
       Map<String, dynamic> updatedData = {'words': wordList};
-      await wordReader.writeJsonData(jsonEncode(updatedData));
+      await readWord.writeJsonData(jsonEncode(updatedData));
     } catch (e) {
       print('Ürün analizi eklenirken hata oluştu: $e');
     }
@@ -51,6 +51,6 @@ class WriteWord {
       print('Kelime paketi eklenirken hata oluştu: $e');
     }
   }
+
+
 }
-
-

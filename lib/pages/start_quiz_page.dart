@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/pages/words_page.dart';
+import 'package:kovalingo/words/quizBrain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/colors.dart';
 import '../widgets/custom_navigator.dart';
-import '../words/read_word_list.dart';
 
 class StartTestPage extends StatefulWidget {
-  const StartTestPage({Key? key}) : super(key: key);
+  const StartTestPage({super.key});
 
   @override
   State<StartTestPage> createState() => _StartTestPageState();
@@ -21,8 +21,7 @@ class _StartTestPageState extends State<StartTestPage> {
   void initState() {
     super.initState();
     _loadQuestionCount();
-    wordListFuture = ReadWord().getWordList();
-
+    wordListFuture = QuizBrain().getQuizWords(questionCount);
   }
 
   Future<void> _loadQuestionCount() async {
@@ -31,6 +30,7 @@ class _StartTestPageState extends State<StartTestPage> {
       questionCount = prefs.getInt("questionCount") ?? 10;
     });
   }
+  //todo sürekli 10 mu dönüyor bir sor
 
   @override
   Widget build(BuildContext context) {
@@ -65,10 +65,13 @@ class _StartTestPageState extends State<StartTestPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Kelime bulunamadı.", style: CustomStyles.blackAndBoldTextStyleXXl),
+          Text("Bugünlük Kelime bulunamadı.",
+              style: CustomStyles.blackAndBoldTextStyleXXl),
           const SizedBox(height: 64),
           ElevatedButton(
-            onPressed: () => Navigator.push(context, CustomNavigator(const WordsPage())),
+            style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(200, 75)),),
+            onPressed: () =>
+                Navigator.push(context, CustomNavigator(const WordsPage())),
             child: Text(
               "Manuel kelime eklemek veya hazır kelime paketi seçmek için tıklayın.",
               style: CustomStyles.blackTextStyleS,
@@ -78,24 +81,38 @@ class _StartTestPageState extends State<StartTestPage> {
       ),
     );
   }
+
+
 }
 
 class FlashcardWidget extends StatefulWidget {
   final List<dynamic> wordList;
 
-  const FlashcardWidget({Key? key, required this.wordList}) : super(key: key);
+  const FlashcardWidget({super.key, required this.wordList});
 
   @override
-  _FlashcardWidgetState createState() => _FlashcardWidgetState();
+  FlashcardWidgetState createState() => FlashcardWidgetState();
 }
 
-class _FlashcardWidgetState extends State<FlashcardWidget> {
+class FlashcardWidgetState extends State<FlashcardWidget> {
   int currentIndex = 0;
   bool isRevealed = false;
+  final QuizBrain quizBrain = QuizBrain();
+  late List<dynamic> remainingWords;
+
+  @override
+  void initState() {
+    super.initState();
+    remainingWords = List.from(widget.wordList);
+  }
 
   @override
   Widget build(BuildContext context) {
-    final currentWord = widget.wordList[currentIndex];
+    if (remainingWords.isEmpty) {
+      return _buildCompletionMessage();
+    }
+
+    final currentWord = remainingWords[currentIndex];
     final deviceSize = MediaQuery.of(context).size;
 
     return Column(
@@ -103,7 +120,7 @@ class _FlashcardWidgetState extends State<FlashcardWidget> {
       children: [
         _buildFlashcard(currentWord, deviceSize),
         const SizedBox(height: 20),
-        isRevealed ? _buildResponseButtons() : _buildRevealButton(),
+        isRevealed ? _buildResponseButtons(currentWord) : _buildRevealButton(),
       ],
     );
   }
@@ -138,22 +155,26 @@ class _FlashcardWidgetState extends State<FlashcardWidget> {
       children: [
         Text(
           "Kelime: ${currentWord['enWord']}",
-          style: const TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Text(
           "Anlamı: ${currentWord['trWord']}",
-          style: const TextStyle(fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Text(
           "İnglizce örnek cümle: ${currentWord['enSentence']}",
-          style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         Text(
           "Cümlenin Türkçe Karşılığı: ${currentWord['trSentence']}",
-          style: const TextStyle(fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+          style: const TextStyle(
+              fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         const SizedBox(height: 10),
         _loadImage(currentWord['imagePath']),
@@ -167,33 +188,44 @@ class _FlashcardWidgetState extends State<FlashcardWidget> {
       errorBuilder: (context, error, stackTrace) {
         return const Text(
           'Resim Yüklenemedi',
-          style: TextStyle(color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
+          style: TextStyle(
+              color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
         );
       },
     );
   }
 
-  Widget _buildResponseButtons() {
+  Widget _buildResponseButtons(Map<String, dynamic> currentWord) {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildResponseButton('Correct', Colors.green),
+        _buildResponseButton('Correct', Colors.green, currentWord['enWord']),
         const SizedBox(width: 20),
-        _buildResponseButton('Incorrect', Colors.red),
+        _buildResponseButton('Incorrect', Colors.red, currentWord['enWord']),
       ],
     );
   }
 
-  Widget _buildResponseButton(String label, Color color) {
+  Widget _buildResponseButton(String label, Color color, String enWord) {
     return ElevatedButton(
-      onPressed: () {
+      onPressed: () async {
+        if (label == 'Correct') {
+          await quizBrain.correctAnswer(enWord);
+        } else {
+          await quizBrain.falseAnswer(enWord);
+        }
+
         setState(() {
           isRevealed = false;
-          currentIndex = (currentIndex + 1) % widget.wordList.length;
+          remainingWords.removeAt(currentIndex);
+          if (remainingWords.isNotEmpty) {
+            currentIndex = currentIndex % remainingWords.length;
+          }
         });
       },
       style: ElevatedButton.styleFrom(backgroundColor: color),
-      child: Text(label, style: const TextStyle(color: Colors.white, fontSize: 24)),
+      child: Text(label,
+          style: const TextStyle(color: Colors.white, fontSize: 24)),
     );
   }
 
@@ -201,7 +233,32 @@ class _FlashcardWidgetState extends State<FlashcardWidget> {
     return ElevatedButton(
       onPressed: () => setState(() => isRevealed = true),
       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-      child: const Text('Reveal', style: TextStyle(color: Colors.white, fontSize: 24)),
+      child: const Text('Reveal',
+          style: TextStyle(color: Colors.white, fontSize: 24)),
+    );
+  }
+
+  Widget _buildCompletionMessage() {
+    return Center(
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "Tüm kelimeleri tamamladınız. Yarın tekrar kontrol edebilirsiniz.",
+            style: CustomStyles.blackAndBoldTextStyleXXl,
+            textAlign: TextAlign.center,
+          ),
+          const SizedBox(height: 64),
+          ElevatedButton(
+            onPressed: () =>
+                Navigator.push(context, CustomNavigator(const WordsPage())),
+            child: Text(
+              "Kelime sayfasına geri dön",
+              style: CustomStyles.blackTextStyleS,
+            ),
+          ),
+        ],
+      ),
     );
   }
 }

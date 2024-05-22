@@ -12,7 +12,7 @@ class CustomStyles {
 
   static TextStyle blackTextStyleS = const TextStyle(
     color: Colors.black,
-    fontSize: 15.0,
+    fontSize: 24.0,
   );
 
   static TextStyle blackAndBoldTextStyleXl = const TextStyle(

@@ -1,9 +1,9 @@
-import 'package:flutter/material.dart';
 import 'package:kovalingo/classes/word_packages_class.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kovalingo/words/quizBrain.dart';
 import 'package:kovalingo/words/reset_word.dart';
 import 'package:kovalingo/words/write_word.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter/material.dart';
 
 import '../words/read_word_list.dart';
 
@@ -18,6 +18,7 @@ class _AdminPanelState extends State<AdminPanel> {
   ReadWord readWord = ReadWord();
   WriteWord writeWord = WriteWord();
   ResetWord resetWord = ResetWord();
+  QuizBrain quizBrain = QuizBrain();
   WordPackages wordPackages = WordPackages();
 
   @override
@@ -79,10 +80,16 @@ class _AdminPanelState extends State<AdminPanel> {
                 ElevatedButton(
                   onPressed: () async {
                     QuizBrain quizBrain = QuizBrain();
-                    List<dynamic> taren = await quizBrain.getQuizWords();
+                    List<dynamic> taren = await quizBrain.getQuizWords(5);
                     print(taren);
                   },
                   child: const Text("readWord GetWordList"),
+                ),
+                ElevatedButton(
+                  onPressed: () async {
+                    quizBrain.falseAnswer("test1Calis");
+                  },
+                  child: const Text("falseAnswer"),
                 ),
               ],
             ),

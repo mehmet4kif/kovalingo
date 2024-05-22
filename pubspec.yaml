@@ -39,6 +39,8 @@ dependencies:
   path_provider: ^2.1.1
   shared_preferences: ^2.2.3
   intl: ^0.19.0
+  fl_chart: ^0.40.0
+  printing: ^5.12.0
 
 dev_dependencies:
   flutter_test:
