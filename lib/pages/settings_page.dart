@@ -12,7 +12,7 @@ class SettingsPage extends StatelessWidget {
     return Scaffold(
       backgroundColor: CustomColors.backgroundBlue,
       appBar: AppBar(
-        title: const Text("Settings"),
+        title: const Text("Ayarlar"),
         backgroundColor: CustomColors.appBarBlue,
       ),
       body: SingleChildScrollView(

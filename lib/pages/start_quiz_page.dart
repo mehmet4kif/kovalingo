@@ -138,13 +138,13 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
           child: isRevealed
               ? _buildRevealedContent(currentWord)
               : Text(
-            currentWord['enWord'],
-            style: const TextStyle(
-              fontSize: 64,
-              color: Colors.white,
-              fontWeight: FontWeight.bold,
-            ),
-          ),
+                  currentWord['enWord'],
+                  style: const TextStyle(
+                    fontSize: 64,
+                    color: Colors.white,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
         ),
       ),
     );
@@ -215,9 +215,9 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        _buildResponseButton('Correct', Colors.green, currentWord['enWord']),
+        _buildResponseButton('Doğru', Colors.red, currentWord['enWord']),
         const SizedBox(width: 20),
-        _buildResponseButton('Incorrect', Colors.red, currentWord['enWord']),
+        _buildResponseButton('Yanlış', Colors.green, currentWord['enWord']),
       ],
     );
   }
@@ -225,7 +225,7 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
   Widget _buildResponseButton(String label, Color color, String enWord) {
     return ElevatedButton(
       onPressed: () async {
-        if (label == 'Correct') {
+        if (label == 'Doğru') {
           await quizBrain.correctAnswer(enWord);
         } else {
           await quizBrain.falseAnswer(enWord);
@@ -249,7 +249,7 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
     return ElevatedButton(
       onPressed: () => setState(() => isRevealed = true),
       style: ElevatedButton.styleFrom(backgroundColor: Colors.blue),
-      child: const Text('Reveal',
+      child: const Text('Göster',
           style: TextStyle(color: Colors.white, fontSize: 24)),
     );
   }
