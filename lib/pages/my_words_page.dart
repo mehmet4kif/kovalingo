@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/words/read_word_list.dart';
 
 class MyWords extends StatelessWidget {
@@ -7,8 +9,10 @@ class MyWords extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: CustomColors.backgroundBlue,
       appBar: AppBar(
         title: Text('Kelimelerim'),
+        backgroundColor: CustomColors.appBarBlue,
       ),
       body: FutureBuilder<List<dynamic>?>(
         future: ReadWord().getWordList(),
@@ -29,36 +33,64 @@ class MyWords extends StatelessWidget {
               );
             } else {
               return ListView.builder(
-                itemCount: wordList.length,
+                itemCount: (wordList.length / 2).ceil(), // Her satırda iki kelime gösterecek şekilde hesaplayın
                 itemBuilder: (context, index) {
-                  final wordData = wordList[index];
-                  final turkishWord = wordData['trWord'];
-                  final englishWord = wordData['enWord'];
-                  final turkishSentence = wordData['trSentence'];
-                  final englishSentence = wordData['enSentence'];
-                  final indexText = 'Kelime ${index + 1}';
+                  final rowIndex = index * 2; // Satırdaki ilk kelimenin index'i
+                  final firstWordData = wordList[rowIndex];
+                  final secondWordData = rowIndex + 1 < wordList.length ? wordList[rowIndex + 1] : null;
 
-                  return ListTile(
-                    title: Text(
-                      '$indexText: $turkishWord',
-                      style: TextStyle(fontWeight: FontWeight.bold),
-                    ),
-                    subtitle: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text('İngilizce Kelime: $englishWord'),
-                        Text('Türkçe Anlamı: $turkishSentence'),
-                        Text('İngilizce Cümle: $englishSentence'),
-                        Text('Türkçe Cümle: $turkishSentence'),
-                      ],
-                    ),
+                  return Row(
+                    children: [
+                      Expanded(
+                        child: Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: _buildWordTile(firstWordData),
+                        ),
+                      ),
+                      if (secondWordData != null)
+                        Expanded(
+                          child: Padding(
+                            padding: const EdgeInsets.all(8.0),
+                            child: _buildWordTile(secondWordData),
+                          ),
+                        ),
+                    ],
                   );
                 },
               );
+
             }
           }
         },
       ),
     );
   }
+}
+Widget _buildWordTile(Map<String, dynamic> wordData) {
+  final englishWord = wordData['enWord'];
+  final turkishWord = wordData['trWord'];
+  final level = wordData['level'];
+  final turkishSentence = wordData['trSentence'];
+  final englishSentence = wordData['enSentence'];
+  final lastDate = wordData['lastDate'];
+
+  return Container(
+    decoration: BoxDecoration(
+      color: Colors.grey,
+      borderRadius: BorderRadius.circular(8.0),
+    ),
+    padding: const EdgeInsets.all(8.0),
+    child: Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        Text('İngilizce Kelime: $englishWord', style: const TextStyle(fontWeight: FontWeight.bold)),
+        Text('Türkçe Karşılığı: $turkishWord', style: CustomStyles.blackAndBoldTextStyleM),
+        Text('İngilizce Cümle: $englishSentence'),
+        Text('Türkçe Cümle: $turkishSentence'),
+        Text('En son cevaplanma tarihi: $lastDate'),
+        Text('Seviye: $level'),
+      ],
+    ),
+  );
 }

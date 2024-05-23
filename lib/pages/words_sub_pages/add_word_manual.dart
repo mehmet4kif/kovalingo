@@ -23,7 +23,6 @@ class _AddWordManualState extends State<AddWordManual> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-        print(_image);
       } else {
         print('Resim seçme işlemi iptal edildi.');
       }
@@ -37,14 +36,32 @@ class _AddWordManualState extends State<AddWordManual> {
     String englishSentence = _controllers[3].text;
     String imagePath = _image?.path ?? "";
 
-    // Türkçe kelime ve İngilizce kelime zorunlu olduğu için boş olamazlar
     if (turkishWord.isEmpty || englishWord.isEmpty) {
       showDialog(
         context: context,
         builder: (context) {
           return AlertDialog(
             title: const Text('Uyarı'),
-            content: const Text('Lütfen en az Türkçe ve İngilizce kelimeyi girin.'),
+            content: const Text('Lütfen İngilizce kelimenizi ve Türkçe karşılığını girin.'),
+            actions: [
+              TextButton(
+                onPressed: () {
+                  Navigator.pop(context);
+                },
+                child: const Text('Tamam'),
+              ),
+            ],
+          );
+        },
+      );
+    } else if ((turkishSentence.isNotEmpty && englishSentence.isEmpty) ||
+        (turkishSentence.isEmpty && englishSentence.isNotEmpty)) {
+      showDialog(
+        context: context,
+        builder: (context) {
+          return AlertDialog(
+            title: const Text('Uyarı'),
+            content: const Text('Lütfen girdiğiniz cümlenin karşılığını da ekleyin'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -57,7 +74,6 @@ class _AddWordManualState extends State<AddWordManual> {
         },
       );
     } else {
-      // Verileri WordData nesnesine paketle
       WordData wordData = WordData(
         turkishWord: turkishWord,
         englishWord: englishWord,
@@ -66,7 +82,6 @@ class _AddWordManualState extends State<AddWordManual> {
         imagePath: imagePath,
       );
 
-      // WriteWord sınıfını kullanarak bilgileri JSON dosyasına kaydet
       WriteWord writeWord = WriteWord();
       await writeWord.addItemToWordList(wordData);
 
@@ -86,7 +101,12 @@ class _AddWordManualState extends State<AddWordManual> {
             ],
           );
         },
-      );
+      ).then((_) {
+        _controllers.forEach((controller) => controller.clear());
+        setState(() {
+          _image = null;
+        });
+      });
     }
   }
 
@@ -103,22 +123,42 @@ class _AddWordManualState extends State<AddWordManual> {
           padding: const EdgeInsets.all(16),
           child: Column(
             children: [
-              CustomTextField(
-                labelText: 'İngilizce Kelime',
-                controller: _controllers[0],
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'İngilizce Kelime',
+                      controller: _controllers[0],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'Türkçe Kelime',
+                      controller: _controllers[1],
+                    ),
+                  ),
+                ],
               ),
-              CustomTextField(
-                labelText: 'Türkçe Kelime',
-                controller: _controllers[1],
+              const SizedBox(height: 16),
+              Row(
+                children: [
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'İngilizce Cümle',
+                      controller: _controllers[2],
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: CustomTextField(
+                      labelText: 'Türkçe Cümle',
+                      controller: _controllers[3],
+                    ),
+                  ),
+                ],
               ),
-              CustomTextField(
-                labelText: 'İngilizce Cümle',
-                controller: _controllers[2],
-              ),
-              CustomTextField(
-                labelText: 'Türkçe Cümle',
-                controller: _controllers[3],
-              ),
+              const SizedBox(height: 16),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
@@ -132,13 +172,25 @@ class _AddWordManualState extends State<AddWordManual> {
                   ),
                 ],
               ),
-              const SizedBox(height: 20), // Add some space before the buttons
+              if (_image != null)
+                Padding(
+                  padding: const EdgeInsets.only(top: 16),
+                  child: Image.file(
+                    _image!,
+                    width: 100,
+                    height: 100,
+                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                      return const Text('Resim yüklenemedi');
+                    },
+                  ),
+                ),
+              const SizedBox(height: 20),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 children: [
                   ElevatedButton(
                     onPressed: () {
-                      // İptal butonuna basılınca yapılacak işlemler
+                      Navigator.pop(context);
                     },
                     child: const Text('İptal Et'),
                   ),
@@ -171,7 +223,7 @@ class CustomTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 16),
+      padding: const EdgeInsets.symmetric(vertical: 8),
       child: TextField(
         controller: controller,
         decoration: InputDecoration(

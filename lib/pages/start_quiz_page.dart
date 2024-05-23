@@ -5,6 +5,7 @@ import 'package:kovalingo/words/quizBrain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/colors.dart';
 import '../widgets/custom_navigator.dart';
+import 'dart:io'; // Dosya işlemleri için dart:io import edildi.
 
 class StartTestPage extends StatefulWidget {
   const StartTestPage({super.key});
@@ -30,7 +31,6 @@ class _StartTestPageState extends State<StartTestPage> {
       questionCount = prefs.getInt("questionCount") ?? 10;
     });
   }
-  //todo sürekli 10 mu dönüyor bir sor
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,9 @@ class _StartTestPageState extends State<StartTestPage> {
               style: CustomStyles.blackAndBoldTextStyleXXl),
           const SizedBox(height: 64),
           ElevatedButton(
-            style: ButtonStyle(minimumSize: MaterialStateProperty.all(const Size(200, 75)),),
+            style: ButtonStyle(
+              minimumSize: MaterialStateProperty.all(const Size(200, 75)),
+            ),
             onPressed: () =>
                 Navigator.push(context, CustomNavigator(const WordsPage())),
             child: Text(
@@ -81,8 +83,6 @@ class _StartTestPageState extends State<StartTestPage> {
       ),
     );
   }
-
-
 }
 
 class FlashcardWidget extends StatefulWidget {
@@ -126,23 +126,24 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
   }
 
   Widget _buildFlashcard(Map<String, dynamic> currentWord, Size deviceSize) {
-    return Container(
-      width: deviceSize.width,
-      height: deviceSize.height / 1.50,
-      padding: const EdgeInsets.all(20.0),
-      decoration: BoxDecoration(
-        color: Colors.grey,
-        borderRadius: BorderRadius.circular(12.0),
-      ),
-      child: Center(
-        child: isRevealed
-            ? _buildRevealedContent(currentWord)
-            : Text(
-          currentWord['enWord'],
-          style: const TextStyle(
-            fontSize: 64,
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
+    return SingleChildScrollView(
+      child: Container(
+        width: deviceSize.width,
+        padding: const EdgeInsets.all(20.0),
+        decoration: BoxDecoration(
+          color: Colors.grey,
+          borderRadius: BorderRadius.circular(12.0),
+        ),
+        child: Center(
+          child: isRevealed
+              ? _buildRevealedContent(currentWord)
+              : Text(
+            currentWord['enWord'],
+            style: const TextStyle(
+              fontSize: 64,
+              color: Colors.white,
+              fontWeight: FontWeight.bold,
+            ),
           ),
         ),
       ),
@@ -164,18 +165,22 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
           style: const TextStyle(
               fontSize: 48, color: Colors.white, fontWeight: FontWeight.bold),
         ),
-        const SizedBox(height: 10),
-        Text(
-          "İnglizce örnek cümle: ${currentWord['enSentence']}",
-          style: const TextStyle(
-              fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
-        const SizedBox(height: 10),
-        Text(
-          "Cümlenin Türkçe Karşılığı: ${currentWord['trSentence']}",
-          style: const TextStyle(
-              fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
-        ),
+        if (currentWord['enSentence'].isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Text(
+            "İnglizce örnek cümle: ${currentWord['enSentence']}",
+            style: const TextStyle(
+                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ],
+        if (currentWord['trSentence'].isNotEmpty) ...[
+          const SizedBox(height: 10),
+          Text(
+            "Cümlenin Türkçe Karşılığı: ${currentWord['trSentence']}",
+            style: const TextStyle(
+                fontSize: 32, color: Colors.white, fontWeight: FontWeight.bold),
+          ),
+        ],
         const SizedBox(height: 10),
         _loadImage(currentWord['imagePath']),
       ],
@@ -183,8 +188,19 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
   }
 
   Widget _loadImage(String imagePath) {
-    return Image.asset(
-      imagePath,
+    if (imagePath.isEmpty) {
+      return const Text(
+        'Resim Yüklenemedi',
+        style: TextStyle(
+            color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
+      );
+    }
+
+    return Image.file(
+      File(imagePath),
+      fit: BoxFit.contain, // Resmin boyutunu sınırlamak için eklendi.
+      height: 200, // Yüksekliği sınırlamak için eklendi.
+      width: double.infinity, // Genişliği sınırlamak için eklendi.
       errorBuilder: (context, error, stackTrace) {
         return const Text(
           'Resim Yüklenemedi',

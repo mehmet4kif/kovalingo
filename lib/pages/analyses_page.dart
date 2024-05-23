@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'dart:typed_data';
+import 'package:kovalingo/constants/styles.dart';
 import 'package:printing/printing.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
@@ -73,7 +74,6 @@ class _AnalysesPageState extends State<AnalysesPage> {
                 'Toplam Kelime Sayısı: $totalWords',
                 style: const TextStyle(fontSize: 18),
               ),
-
               const SizedBox(height: 8),
               Text(
                 'Tamamlanmış Kelime Sayısı: $finishedWords',
@@ -95,7 +95,7 @@ class _AnalysesPageState extends State<AnalysesPage> {
       floatingActionButton: FloatingActionButton(
         onPressed: () => printAnalysisPage(context),
         tooltip: 'Sayfayı Yazdır',
-        child: Icon(Icons.print),
+        child: const Icon(Icons.print),
       ),
     );
   }
@@ -154,14 +154,17 @@ class _AnalysesPageState extends State<AnalysesPage> {
         sections: [
           PieChartSectionData(
             value: finishedWords.toDouble(),
-            color: Colors.green,
+            color: Colors.orange,
             title: 'Tamamlanan Kelimeler\n${finishedWords.toDouble()}',
-            radius: 50,
+            titleStyle: CustomStyles.blackAndBoldTextStyleM,
+            radius: 100,
           ),
           PieChartSectionData(
             value: (totalWords - finishedWords).toDouble(),
-            color: Colors.grey,
-            title: 'Kalan Kelimeler\n${(totalWords - finishedWords).toDouble()}',
+            color: Colors.blue,
+            title:
+                'Kalan Kelimeler\n${(totalWords - finishedWords).toDouble()}',
+            titleStyle: CustomStyles.blackAndBoldTextStyleM,
             radius: 100,
           ),
         ],
@@ -172,7 +175,8 @@ class _AnalysesPageState extends State<AnalysesPage> {
   void printAnalysisPage(BuildContext context) {
     Printing.layoutPdf(
       onLayout: (_) async {
-        final pdfData = _printKey.currentContext!.findRenderObject() as RenderRepaintBoundary;
+        final pdfData = _printKey.currentContext!.findRenderObject()
+            as RenderRepaintBoundary;
         final image = await pdfData.toImage(pixelRatio: 2.0);
         final byteData = await image.toByteData(format: ImageByteFormat.png);
         return byteData!.buffer.asUint8List();
@@ -180,8 +184,4 @@ class _AnalysesPageState extends State<AnalysesPage> {
       name: 'analyses_page.pdf',
     );
   }
-
-
-
-
 }

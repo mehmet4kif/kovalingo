@@ -46,6 +46,12 @@ class _AdminPanelState extends State<AdminPanel> {
                   child: const Text("resetle"),
                 ),
                 ElevatedButton(
+                  onPressed: () {
+                    resetWord.loadTestData();
+                  },
+                  child: const Text("testVerisiYükle"),
+                ),
+                ElevatedButton(
                   onPressed: () async {
                     int wordCount = await readWord.getTotalWordCount();
                     print(wordCount);
