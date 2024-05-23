@@ -4,14 +4,14 @@ import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/words/read_word_list.dart';
 
 class MyWords extends StatelessWidget {
-  const MyWords({Key? key}) : super(key: key);
+  const MyWords({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: CustomColors.backgroundBlue,
       appBar: AppBar(
-        title: Text('Kelimelerim'),
+        title: const Text('Kelimelerim'),
         backgroundColor: CustomColors.appBarBlue,
       ),
       body: FutureBuilder<List<dynamic>?>(

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/pages/words_page.dart';
-import 'package:kovalingo/words/quizBrain.dart';
+import 'package:kovalingo/words/quiz_brain.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import '../constants/colors.dart';
 import '../widgets/custom_navigator.dart';
@@ -65,7 +65,7 @@ class _StartTestPageState extends State<StartTestPage> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Text("Bugünlük Kelime bulunamadı.",
+          Text("Quiz'e hazır kelime bulunamadı.",
               style: CustomStyles.blackAndBoldTextStyleXXl),
           const SizedBox(height: 64),
           ElevatedButton(

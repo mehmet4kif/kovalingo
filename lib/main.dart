@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/pages/main_menu.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
@@ -9,7 +8,7 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key});
+  const MyApp({super.key});
 
 
   @override

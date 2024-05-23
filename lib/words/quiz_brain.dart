@@ -1,8 +1,7 @@
-import 'dart:convert';
-
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kovalingo/words/read_word_list.dart';
 import 'package:intl/intl.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'dart:convert';
 
 class QuizBrain {
   ReadWord readWord = ReadWord();
@@ -24,7 +23,6 @@ class QuizBrain {
         try {
           lastDate = dateFormat.parse(word['lastDate']);
         } catch (e) {
-          print('Error parsing date: ${word['lastDate']}, error: $e');
           continue; // Skip this word if date parsing fails
         }
 
@@ -83,7 +81,6 @@ class QuizBrain {
         // Iterate over the raw data and update the word if found
         for (var word in rawData) {
           if (word["enWord"] == selectedWord) {
-            print("içinde bulunuduğumuz kelime grubu $word \n*\n");
             // If the word level is not 0, reset it to 0 and update the date
             if (word["level"] != 0) {
               word["level"] = 0;
@@ -99,13 +96,8 @@ class QuizBrain {
         Map<String, dynamic> updatedData = {'words': rawData};
         await readWord.writeJsonData(jsonEncode(updatedData));
         await updateAnalyses("falseAnswers");
-      } else {
-        print("rawData is null");
-      }
-    } catch (e) {
-      print("An error occurred: $e");
-    }
-    print("writeTable başarı ile tamamlandı");
+      } else {}
+    } catch (e) {}
   }
 
   Future<void> correctAnswer(String selectedWord) async {
@@ -120,7 +112,6 @@ class QuizBrain {
 
         for (var word in rawData) {
           if (word["enWord"] == selectedWord) {
-            print("içinde bulunuduğumuz kelime grubu $word \n*\n");
 
             if (word["level"] < 6) {
               word["level"] += 1;
@@ -140,13 +131,9 @@ class QuizBrain {
         await readWord.writeJsonData(jsonEncode(updatedData));
         await updateAnalyses("correctAnswers");
       } else {
-        print("rawData is null");
       }
     } catch (e) {
-      print("An error occurred: $e");
     }
-    print("writeTable başarı ile tamamlandı");
-
   }
 
   Future<void> updateAnalyses(String analysesType) async {

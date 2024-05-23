@@ -1,45 +1,56 @@
 import 'package:flutter/material.dart';
+import 'package:kovalingo/classes/word_packages_class.dart';
 import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/words/write_word.dart';
 
 import '../../widgets/words_package_button.dart';
 
 class WordPackagePage extends StatelessWidget {
+  final WriteWord writeWord = WriteWord();
+  final WordPackages wordPackages = WordPackages();
+
   WordPackagePage({super.key});
 
-  List<Widget> wordPackages = [
-    WordPackageButton(
-      text: 'Stanford En Çok Kullanılan 100 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Stanford En Çok Kullanılan 250 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Stanford En Çok Kullanılan 500 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Stanford En Çok Kullanılan 1000 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Tatil için 120 Turist Kelimesi',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'A1 Seviyesi 200 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Yazılım ile ilgili 80 kelime',
-      onTap: () {},
-    ),
-    WordPackageButton(
-      text: 'Prepositions kelimeleri',
-      onTap: () {},
-    ),
-  ];
+  List<Widget> _buildWordButtons() {
+    return [
+      WordPackageButton(
+        text: 'Giriş seviyesi basit kelimeler',
+        onTap: () {
+          writeWord.addItemPack(wordPackages.a1Word);
+        },
+      ),
+      WordPackageButton(
+        text: 'Yazılımla ilgili terimler',
+        onTap: () {
+          writeWord.addItemPack(wordPackages.softwareTerms);
+        },
+      ),
+      WordPackageButton(
+        text: "İleri seviye kelimeler",
+        onTap: () {
+          writeWord.addItemPack(wordPackages.c2Words);
+        },
+      ),
+      WordPackageButton(
+        text: 'Orta seviye kelimeler',
+        onTap: () {
+          writeWord.addItemPack(wordPackages.b1Words);
+        },
+      ),
+      WordPackageButton(
+        text: 'Tatilde kullanılabilecek cümleler',
+        onTap: () {
+          writeWord.addItemPack(wordPackages.holidayPhrases);
+        },
+      ),
+      WordPackageButton(
+        text: 'Prepositions kelimeleri',
+        onTap: () {
+          writeWord.addItemPack(wordPackages.prepositions);
+        },
+      ),
+    ];
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -54,10 +65,8 @@ class WordPackagePage extends StatelessWidget {
         mainAxisSpacing: 16.0,
         crossAxisSpacing: 16.0,
         crossAxisCount: 4,
-        children: wordPackages,
+        children: _buildWordButtons(),
       ),
     );
   }
 }
-
-

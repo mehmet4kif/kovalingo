@@ -23,8 +23,6 @@ class _AddWordManualState extends State<AddWordManual> {
     setState(() {
       if (pickedFile != null) {
         _image = File(pickedFile.path);
-      } else {
-        print('Resim seçme işlemi iptal edildi.');
       }
     });
   }
@@ -102,7 +100,9 @@ class _AddWordManualState extends State<AddWordManual> {
           );
         },
       ).then((_) {
-        _controllers.forEach((controller) => controller.clear());
+        for (var controller in _controllers) {
+          controller.clear();
+        }
         setState(() {
           _image = null;
         });

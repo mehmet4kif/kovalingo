@@ -1,11 +1,9 @@
-import 'package:flutter/material.dart';
-import 'package:kovalingo/constants/colors.dart';
-import 'package:kovalingo/pages/words_sub_pages/add_word_manual.dart';
 import 'package:kovalingo/pages/words_sub_pages/word_packages_page.dart';
+import 'package:kovalingo/pages/words_sub_pages/add_word_manual.dart';
 import 'package:kovalingo/widgets/custom_menu_button.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
-
-import 'admin_panel_page.dart';
+import 'package:kovalingo/constants/colors.dart';
+import 'package:flutter/material.dart';
 import 'my_words_page.dart';
 
 class WordsPage extends StatelessWidget {
@@ -37,11 +35,6 @@ class WordsPage extends StatelessWidget {
           CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {
             Navigator.push(context, CustomNavigator(const MyWords()));
           }),
-          CustomMenuButton(
-              title: "Admin Panel",
-              onPressed: () {
-                Navigator.push(context, CustomNavigator(const AdminPanel()));
-              }),
         ],
       ),
     );

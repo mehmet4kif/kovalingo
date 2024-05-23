@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:kovalingo/words/read_word_list.dart';
 import '../classes/word_data_class.dart';
 import 'dart:convert';
@@ -38,7 +39,9 @@ class WriteWord {
       Map<String, dynamic> updatedData = {'words': wordList};
       await readWord.writeJsonData(jsonEncode(updatedData));
     } catch (e) {
-      print('Ürün analizi eklenirken hata oluştu: $e');
+      if (kDebugMode) {
+        print('Ürün analizi eklenirken hata oluştu: $e');
+      }
     }
   }
 
@@ -48,7 +51,9 @@ class WriteWord {
         await addItemToWordListJson(wordData);
       }
     } catch (e) {
-      print('Kelime paketi eklenirken hata oluştu: $e');
+      if (kDebugMode) {
+        print('Kelime paketi eklenirken hata oluştu: $e');
+      }
     }
   }
 

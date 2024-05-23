@@ -22,14 +22,15 @@ class MainMenu extends StatelessWidget {
           child: Column(
             children: [
               Expanded(
+                flex: 2,
                 child: Row(
-                  crossAxisAlignment: CrossAxisAlignment.stretch,
+                  crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
                       child: Container(
                         child: Image.asset(
                           "assets/images/menuLogo2.png",
-                          fit: BoxFit.fitWidth,
+                          fit: BoxFit.contain,
                         ),
                       ),
                     ),
