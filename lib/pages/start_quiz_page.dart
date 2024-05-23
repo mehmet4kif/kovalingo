@@ -1,11 +1,11 @@
-import 'package:flutter/material.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/pages/words_page.dart';
 import 'package:kovalingo/words/quiz_brain.dart';
-import 'package:shared_preferences/shared_preferences.dart';
-import '../constants/colors.dart';
 import '../widgets/custom_navigator.dart';
-import 'dart:io'; // Dosya işlemleri için dart:io import edildi.
+import 'package:flutter/material.dart';
+import '../constants/colors.dart';
+import 'dart:io';
 
 class StartTestPage extends StatefulWidget {
   const StartTestPage({super.key});
@@ -73,7 +73,7 @@ class _StartTestPageState extends State<StartTestPage> {
               minimumSize: MaterialStateProperty.all(const Size(200, 75)),
             ),
             onPressed: () =>
-                Navigator.push(context, CustomNavigator(const WordsPage())),
+                Navigator.push(context, customNavigator(const WordsPage())),
             child: Text(
               "Manuel kelime eklemek veya hazır kelime paketi seçmek için tıklayın.",
               style: CustomStyles.blackTextStyleS,
@@ -198,9 +198,9 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
 
     return Image.file(
       File(imagePath),
-      fit: BoxFit.contain, // Resmin boyutunu sınırlamak için eklendi.
-      height: 200, // Yüksekliği sınırlamak için eklendi.
-      width: double.infinity, // Genişliği sınırlamak için eklendi.
+      fit: BoxFit.contain,
+      height: 200,
+      width: double.infinity,
       errorBuilder: (context, error, stackTrace) {
         return const Text(
           'Resim Yüklenemedi',
@@ -267,7 +267,7 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
           const SizedBox(height: 64),
           ElevatedButton(
             onPressed: () =>
-                Navigator.push(context, CustomNavigator(const WordsPage())),
+                Navigator.push(context, customNavigator(const WordsPage())),
             child: Text(
               "Kelime sayfasına geri dön",
               style: CustomStyles.blackTextStyleS,

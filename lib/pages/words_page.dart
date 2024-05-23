@@ -25,15 +25,15 @@ class WordsPage extends StatelessWidget {
           CustomMenuButton(
               title: "Manuel Kelime Ekleme",
               onPressed: () {
-                Navigator.push(context, CustomNavigator(const AddWordManual()));
+                Navigator.push(context, customNavigator(const AddWordManual()));
               }),
           CustomMenuButton(
               title: "Hazır Paketlerden Kelime Ekle",
               onPressed: () {
-                Navigator.push(context, CustomNavigator(WordPackagePage()));
+                Navigator.push(context, customNavigator(WordPackagePage()));
               }),
           CustomMenuButton(title: "Kelimelerimi Görüntüle", onPressed: () {
-            Navigator.push(context, CustomNavigator(const MyWords()));
+            Navigator.push(context, customNavigator(const MyWords()));
           }),
         ],
       ),

@@ -33,9 +33,9 @@ class MyWords extends StatelessWidget {
               );
             } else {
               return ListView.builder(
-                itemCount: (wordList.length / 2).ceil(), // Her satırda iki kelime gösterecek şekilde hesaplayın
+                itemCount: (wordList.length / 2).ceil(),
                 itemBuilder: (context, index) {
-                  final rowIndex = index * 2; // Satırdaki ilk kelimenin index'i
+                  final rowIndex = index * 2;
                   final firstWordData = wordList[rowIndex];
                   final secondWordData = rowIndex + 1 < wordList.length ? wordList[rowIndex + 1] : null;
 

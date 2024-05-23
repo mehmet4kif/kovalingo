@@ -6,10 +6,10 @@ class CustomMenuButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const CustomMenuButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {

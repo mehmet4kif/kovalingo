@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:path/path.dart';
 import 'dart:convert';
@@ -19,8 +20,7 @@ class ReadWord {
       File file = await _localFile;
       return file;
     } catch (e) {
-      print('Veri okuma hatası: $e');
-      return null; // Hata durumunda null döndürün
+      return null;
     }
   }
 
@@ -29,9 +29,8 @@ class ReadWord {
 
     try {
       await file?.writeAsString(jsonData);
-      print("Başarılı");
     } catch (e) {
-      print('JSON data write error: $e');
+      null;
     }
   }
 
@@ -42,14 +41,15 @@ class ReadWord {
         String content = await file.readAsString();
         if (content.isNotEmpty) {
           Map<String, dynamic> rawData = jsonDecode(content);
-          // 'words' alanı varsa ve bir liste ise, onu döndür
           if (rawData.containsKey('words') && rawData['words'] is List) {
             return rawData['words'];
           }
         }
       }
     } catch (e) {
-      print('Veri okuma hatası: $e');
+      if (kDebugMode) {
+        print('Veri okuma hatası: $e');
+      }
     }
     return null;
   }
@@ -61,9 +61,11 @@ class ReadWord {
         return wordList.length;
       }
     } catch (e) {
-      print('Kelime sayısı alınırken hata oluştu: $e');
+      if (kDebugMode) {
+        print('Kelime sayısı alınırken hata oluştu: $e');
+      }
     }
-    return 0; // Hata durumunda veya liste boşsa 0 döndürülür
+    return 0;
   }
 
 }

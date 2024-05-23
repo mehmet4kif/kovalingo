@@ -1,12 +1,11 @@
-import 'package:flutter/material.dart';
-import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/widgets/custom_navigator.dart';
+import 'package:kovalingo/pages/start_quiz_page.dart';
 import 'package:kovalingo/pages/analyses_page.dart';
 import 'package:kovalingo/pages/settings_page.dart';
-import 'package:kovalingo/pages/start_quiz_page.dart';
+import 'package:kovalingo/constants/colors.dart';
 import 'package:kovalingo/pages/words_page.dart';
-import 'package:kovalingo/widgets/custom_navigator.dart';
-
 import '../widgets/custom_menu_button.dart';
+import 'package:flutter/material.dart';
 import 'how_it_works_page.dart';
 
 class MainMenu extends StatelessWidget {
@@ -27,11 +26,9 @@ class MainMenu extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.end,
                   children: [
                     Expanded(
-                      child: Container(
-                        child: Image.asset(
-                          "assets/images/menuLogo2.png",
-                          fit: BoxFit.contain,
-                        ),
+                      child: Image.asset(
+                        "assets/images/menuLogo2.png",
+                        fit: BoxFit.contain,
                       ),
                     ),
                   ],
@@ -45,31 +42,31 @@ class MainMenu extends StatelessWidget {
                       CustomMenuButton(
                         title: 'Teste Başla',
                         onPressed: () {
-                          Navigator.push(context, CustomNavigator(const StartTestPage()));
+                          Navigator.push(context, customNavigator(const StartTestPage()));
                         },
                       ),
                       CustomMenuButton(
                         title: 'Kelimlelerim',
                         onPressed: () {
-                          Navigator.push(context, CustomNavigator(const WordsPage()));
+                          Navigator.push(context, customNavigator(const WordsPage()));
                         },
                       ),
                       CustomMenuButton(
                         title: 'Analizlerim',
                         onPressed: () {
-                          Navigator.push(context, CustomNavigator(const AnalysesPage()));
+                          Navigator.push(context, customNavigator(const AnalysesPage()));
                         },
                       ),
                       CustomMenuButton(
                         title: 'Ayarlar',
                         onPressed: () {
-                          Navigator.push(context, CustomNavigator(const SettingsPage()));
+                          Navigator.push(context, customNavigator(const SettingsPage()));
                         },
                       ),
                       CustomMenuButton(
                         title: 'Nasıl Çalışır',
                         onPressed: () {
-                          Navigator.push(context, CustomNavigator(const HowItWorksPage()));
+                          Navigator.push(context, customNavigator(const HowItWorksPage()));
                         },
                       ),
 

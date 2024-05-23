@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import '../constants/colors.dart';
 
-//todo buraya widgetlar gelebilir paddingler için ve textler için style
 
 class HowItWorksPage extends StatelessWidget {
   const HowItWorksPage({super.key});

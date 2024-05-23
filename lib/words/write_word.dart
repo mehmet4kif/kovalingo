@@ -14,11 +14,10 @@ class WriteWord {
     try {
       List<dynamic>? wordList = await readWord.getWordList();
 
-      // Get the current date
+
       DateTime now = DateTime.now();
       String formattedDate = "${now.day}.${now.month}.${now.year}";
 
-      // Create the new word entry
       Map<String, dynamic> newWordEntry = {
         'trWord': wordData.turkishWord,
         'enWord': wordData.englishWord,
@@ -29,13 +28,10 @@ class WriteWord {
         'imagePath': wordData.imagePath,
       };
 
-      // If wordList is null, initialize it as an empty list
       wordList ??= [];
 
-      // Add the new entry to the list
       wordList.add(newWordEntry);
 
-      // Write the updated data back to the JSON file
       Map<String, dynamic> updatedData = {'words': wordList};
       await readWord.writeJsonData(jsonEncode(updatedData));
     } catch (e) {

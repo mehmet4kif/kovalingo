@@ -1,6 +1,6 @@
-import 'package:flutter/material.dart';
-import 'package:kovalingo/pages/main_menu.dart';
 import 'package:kovalingo/widgets/custom_navigator.dart';
+import 'package:kovalingo/pages/main_menu.dart';
+import 'package:flutter/material.dart';
 
 Future<void> main() async {
   runApp(const MyApp());
@@ -44,7 +44,7 @@ class _MyHomePageState extends State<MyHomePage> {
         children: <Widget>[
           TextButton(
             onPressed: () {
-              Navigator.push(context, CustomNavigator(const MainMenu()));
+              Navigator.push(context, customNavigator(const MainMenu()));
             },
             child: const Text("Main Menu"),
           ),

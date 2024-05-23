@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:kovalingo/words/read_word_list.dart';
 
 class ResetWord {
@@ -7,7 +8,9 @@ class ResetWord {
     try {
       await readWord.writeJsonData('{"words": {}}');
     } catch (e) {
-      print("Kelime verilerini sıfırlarken bir hata oluştu: $e");
+      if (kDebugMode) {
+        print("Kelime verilerini sıfırlarken bir hata oluştu: $e");
+      }
     }
   }
 }
