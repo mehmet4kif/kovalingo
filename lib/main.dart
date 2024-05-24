@@ -1,29 +1,26 @@
-import 'dart:async';
-import 'package:connectivity/connectivity.dart';
+import 'package:connectivity_plus/connectivity_plus.dart';
+import 'package:sign_in_button/sign_in_button.dart';
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:kovalingo/firebase_options.dart';
-
-import 'package:kovalingo/theme_provider.dart';
-
 import 'package:kovalingo/pages/main_menu.dart';
+import 'package:nice_buttons/nice_buttons.dart';
+import 'package:kovalingo/theme_provider.dart';
 import 'package:kovalingo/pages/signup.dart';
 import 'package:provider/provider.dart';
-import 'package:sign_in_button/sign_in_button.dart';
-
-import 'package:nice_buttons/nice_buttons.dart';
+import 'package:flutter/material.dart';
+import 'dart:async';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(MyApp());
-} // Firebase'in başlatılması
+  runApp(const MyApp());
+}
 
 class MyApp extends StatefulWidget {
-  const MyApp({Key? key}) : super(key: key);
+  const MyApp({super.key});
 
   @override
   _MyAppState createState() => _MyAppState();
@@ -33,14 +30,13 @@ class _MyAppState extends State<MyApp> {
   late bool _isLoading;
   late bool _isConnected;
 
-  StreamSubscription? _connectionSubscription;
+  late StreamSubscription<ConnectivityResult> _connectionSubscription;
 
   @override
   void initState() {
     super.initState();
     _isLoading = true;
-    _isConnected = false;
-    _checkConnectivity(); // İnternet bağlantısını kontrol etmek için işlevi çağırın
+    _isConnected = true;
 
     // Firebase'in başlatılması
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
@@ -53,18 +49,7 @@ class _MyAppState extends State<MyApp> {
   @override
   void dispose() {
     super.dispose();
-    _connectionSubscription?.cancel(); // Aboneliği iptal et
-  }
-
-  // İnternet bağlantısını kontrol etmek için işlev
-  void _checkConnectivity() {
-    _connectionSubscription = Connectivity()
-        .onConnectivityChanged
-        .listen((ConnectivityResult result) {
-      setState(() {
-        _isConnected = (result != ConnectivityResult.none);
-      });
-    });
+    _connectionSubscription.cancel(); // Aboneliği iptal et
   }
 
   @override
@@ -78,7 +63,7 @@ class _MyAppState extends State<MyApp> {
             return MaterialApp(
               theme: ThemeData.light(),
               debugShowCheckedModeBanner: false,
-              home: Scaffold(
+              home: const Scaffold(
                 body: Center(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.center,
@@ -111,7 +96,7 @@ class _MyAppState extends State<MyApp> {
             debugShowCheckedModeBanner: false,
             home: _isLoading
                 ? const CircularProgressIndicator()
-                : AuthenticationWrapper(),
+                : const AuthenticationWrapper(),
           );
         },
       ),
@@ -119,34 +104,20 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
-
 class AuthenticationWrapper extends StatelessWidget {
+  const AuthenticationWrapper({super.key});
+
   @override
   Widget build(BuildContext context) {
     final User? firebaseUser = FirebaseAuth.instance.currentUser;
     if (firebaseUser != null) {
-      return MainMenu();
+      return const MainMenu();
     } else {
       return SignInScreen();
     }
   }
 }
 
-String _translateFirebaseError(String errorCode) {
-  switch (errorCode) {
-    case "invalid-email":
-      return "Geçersiz e-posta adresi formatı.";
-    case "user-disabled":
-      return "Kullanıcı hesabı devre dışı bırakıldı.";
-    case "user-not-found":
-      return "Kullanıcı bulunamadı.";
-    case "wrong-password":
-      return "Yanlış şifre.";
-    // Diğer hata durumları için gerekirse switch case ekleyebilirsiniz
-    default:
-      return "Bir hata oluştu. Lütfen tekrar deneyin.";
-  }
-}
 
 class SignInScreen extends StatelessWidget {
   void _signInWithEmailAndPassword(BuildContext context) async {
@@ -198,8 +169,8 @@ class SignInScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Giriş Yap',
                               style: TextStyle(
@@ -215,9 +186,9 @@ class SignInScreen extends StatelessWidget {
                               labelText: 'E-mail',
                               filled: true,
                               contentPadding:
-                                  EdgeInsets.fromLTRB(20, 15, 0, 15),
-                              icon: Icon(Icons.email_outlined),
-                              border: OutlineInputBorder(
+                                  const EdgeInsets.fromLTRB(20, 15, 0, 15),
+                              icon: const Icon(Icons.email_outlined),
+                              border: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.teal, width: 40),
                               ),
@@ -228,16 +199,16 @@ class SignInScreen extends StatelessWidget {
                               ),
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextField(
                             controller: _passwordController,
                             decoration: InputDecoration(
                               labelText: 'Şifre',
                               filled: true,
                               contentPadding:
-                                  EdgeInsets.fromLTRB(20, 15, 0, 15),
-                              icon: Icon(Icons.lock_outline),
-                              border: OutlineInputBorder(
+                                  const EdgeInsets.fromLTRB(20, 15, 0, 15),
+                              icon: const Icon(Icons.lock_outline),
+                              border: const OutlineInputBorder(
                                 borderSide:
                                     BorderSide(color: Colors.teal, width: 40),
                               ),
@@ -249,7 +220,7 @@ class SignInScreen extends StatelessWidget {
                             ),
                             obscureText: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           SignInButton(
                             Buttons.email,
                             text: "E-mail İle Giriş Yap",
@@ -261,7 +232,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Card(
                   elevation: 8,
                   shape: RoundedRectangleBorder(
@@ -273,14 +244,14 @@ class SignInScreen extends StatelessWidget {
                       mainAxisSize: MainAxisSize.min,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
-                        Center(
+                        const Center(
                           child: Text(
                             'Hesabın yok mu?',
                             style:
                                 TextStyle(fontFamily: 'Poppins', fontSize: 13),
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         NiceButtons(
                           stretch: true,
                           gradientOrientation: GradientOrientation.Horizontal,
@@ -294,7 +265,7 @@ class SignInScreen extends StatelessWidget {
                                   builder: (context) => SignUpScreen()),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             'Kayıt Ol',
                             style: TextStyle(
                               color: Colors.white,
@@ -309,7 +280,6 @@ class SignInScreen extends StatelessWidget {
                 ),
               ],
             ),
-
           ),
         ),
       ),

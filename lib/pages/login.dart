@@ -4,7 +4,7 @@ import 'package:kovalingo/pages/signup.dart';
 import 'main_menu.dart';
 import 'package:kovalingo/main.dart';
 import 'package:sign_in_button/sign_in_button.dart';
-import 'package:nice_buttons/nice_buttons.dart'; // Main menu ekranının olduğu dosyanın import edildiğini varsayalım.
+import 'package:nice_buttons/nice_buttons.dart';
 
 String _translateFirebaseError(String errorCode) {
   switch (errorCode) {
