@@ -190,7 +190,7 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
   Widget _loadImage(String imagePath) {
     if (imagePath.isEmpty) {
       return const Text(
-        'Resim Yüklenemedi',
+        'Resim Yok',
         style: TextStyle(
             color: Colors.red, fontSize: 24, fontWeight: FontWeight.bold),
       );
@@ -213,11 +213,11 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
 
   Widget _buildResponseButtons(Map<String, dynamic> currentWord) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildResponseButton('Doğru', Colors.red, currentWord['enWord']),
+        _buildResponseButton('Yanlış', Colors.red, currentWord['enWord']),
         const SizedBox(width: 20),
-        _buildResponseButton('Yanlış', Colors.green, currentWord['enWord']),
+        _buildResponseButton('Doğru', Colors.green, currentWord['enWord']),
       ],
     );
   }
@@ -241,7 +241,7 @@ class FlashcardWidgetState extends State<FlashcardWidget> {
       },
       style: ElevatedButton.styleFrom(backgroundColor: color),
       child: Text(label,
-          style: const TextStyle(color: Colors.white, fontSize: 24)),
+          style: const TextStyle(color: Colors.white, fontSize: 28)),
     );
   }
 
