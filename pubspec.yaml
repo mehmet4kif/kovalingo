@@ -42,6 +42,7 @@ dependencies:
   fl_chart: ^0.40.0
   printing: ^5.12.0
 
+
 dev_dependencies:
   flutter_test:
     sdk: flutter
@@ -64,7 +65,8 @@ flutter:
   # the material Icons class.
   uses-material-design: true
   assets:
-    - assets/images/
+    - lib/assets/images/blob-scene-haikei.png
+
 
   # To add assets to your application, add an assets section, like this:
   # assets:

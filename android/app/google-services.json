@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "1049894761843",
+    "project_id": "kovalingoo",
+    "storage_bucket": "kovalingoo.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1049894761843:android:8c71a4bdbf26747c268106",
+        "android_client_info": {
+          "package_name": "com.example.kovalingo"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABHBUBR9_bUtvHyuS7ec7mjYr1sIMJwrU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
