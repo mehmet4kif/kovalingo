@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-PageRouteBuilder CustomNavigator(Widget page){
+PageRouteBuilder customNavigator(Widget page){
   return PageRouteBuilder(
     opaque: false,
     pageBuilder: (_, __, ___) => page,
@@ -10,6 +10,6 @@ PageRouteBuilder CustomNavigator(Widget page){
         child: child,
       );
     },
-    transitionDuration: const Duration(milliseconds: 300),
+    transitionDuration: const Duration(milliseconds: 250),
   );
 }

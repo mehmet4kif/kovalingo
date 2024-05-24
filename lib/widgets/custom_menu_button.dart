@@ -6,47 +6,50 @@ class CustomMenuButton extends StatelessWidget {
   final VoidCallback onPressed;
 
   const CustomMenuButton({
-    Key? key,
+    super.key,
     required this.title,
     required this.onPressed,
-  }) : super(key: key);
+  });
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TextButton(
-          onPressed: onPressed,
-          style: ButtonStyle(
-            backgroundColor:
-                MaterialStateProperty.all<Color>(CustomColors.menuButtonBlue),
-            padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
-              const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
-            ),
-            shape: MaterialStateProperty.all<OutlinedBorder>(
-              RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(10),
+    return Padding(
+      padding: const EdgeInsets.all(16),
+      child: Column(
+        children: [
+          TextButton(
+            onPressed: onPressed,
+            style: ButtonStyle(
+              backgroundColor:
+                  MaterialStateProperty.all<Color>(CustomColors.menuButtonBlue),
+              padding: MaterialStateProperty.all<EdgeInsetsGeometry>(
+                const EdgeInsets.symmetric(vertical: 20, horizontal: 20),
               ),
-            ),
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                title,
-                style: const TextStyle(
-                  fontSize: 16,
-                  fontWeight: FontWeight.bold,
-                  color: Colors.black87,
+              shape: MaterialStateProperty.all<OutlinedBorder>(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(10),
                 ),
               ),
-            ],
+            ),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  title,
+                  style: const TextStyle(
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.black87,
+                  ),
+                ),
+              ],
+            ),
           ),
-        ),
-        const SizedBox(
-          height: 16,
-        ),
-      ],
+          const SizedBox(
+            height: 16,
+          ),
+        ],
+      ),
     );
   }
 }

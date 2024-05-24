@@ -119,6 +119,7 @@ class _MyAppState extends State<MyApp> {
   }
 }
 
+
 class AuthenticationWrapper extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
@@ -308,6 +309,7 @@ class SignInScreen extends StatelessWidget {
                 ),
               ],
             ),
+
           ),
         ),
       ),
