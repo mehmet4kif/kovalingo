@@ -10,7 +10,7 @@ import '../constants/colors.dart';
 import '../words/read_word_list.dart';
 
 class AnalysesPage extends StatefulWidget {
-  const AnalysesPage({Key? key}) : super(key: key);
+  const AnalysesPage({super.key});
 
   @override
   State<AnalysesPage> createState() => _AnalysesPageState();
@@ -111,7 +111,7 @@ class _AnalysesPageState extends State<AnalysesPage> {
               BarChartRodData(
                 width: 20,
                 y: trueAnswers.toDouble(),
-                colors: [Colors.green],
+                colors: [CustomColors.greenThemeColor],
               ),
             ],
           ),
@@ -121,7 +121,7 @@ class _AnalysesPageState extends State<AnalysesPage> {
               BarChartRodData(
                 width: 20,
                 y: falseAnswers.toDouble(),
-                colors: [Colors.red],
+                colors: [CustomColors.redThemeColor],
               ),
             ],
           ),
@@ -154,14 +154,14 @@ class _AnalysesPageState extends State<AnalysesPage> {
         sections: [
           PieChartSectionData(
             value: finishedWords.toDouble(),
-            color: Colors.orange,
+            color: CustomColors.orangeThemeColor,
             title: 'Tamamlanan Kelimeler\n${finishedWords.toDouble()}',
             titleStyle: CustomStyles.blackAndBoldTextStyleM,
             radius: 100,
           ),
           PieChartSectionData(
             value: (totalWords - finishedWords).toDouble(),
-            color: Colors.blue,
+            color: CustomColors.blueThemeColor,
             title:
                 'Kalan Kelimeler\n${(totalWords - finishedWords).toDouble()}',
             titleStyle: CustomStyles.blackAndBoldTextStyleM,

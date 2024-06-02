@@ -1,3 +1,4 @@
+import 'package:kovalingo/constants/styles.dart';
 import 'package:kovalingo/words/write_word.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -14,7 +15,8 @@ class AddWordManual extends StatefulWidget {
 
 class _AddWordManualState extends State<AddWordManual> {
   File? _image;
-  final List<TextEditingController> _controllers = List.generate(4, (_) => TextEditingController());
+  final List<TextEditingController> _controllers =
+      List.generate(4, (_) => TextEditingController());
 
   Future<void> _pickImage() async {
     final picker = ImagePicker();
@@ -40,7 +42,8 @@ class _AddWordManualState extends State<AddWordManual> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Uyarı'),
-            content: const Text('Lütfen İngilizce kelimenizi ve Türkçe karşılığını girin.'),
+            content: const Text(
+                'Lütfen İngilizce kelimenizi ve Türkçe karşılığını girin.'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -59,7 +62,8 @@ class _AddWordManualState extends State<AddWordManual> {
         builder: (context) {
           return AlertDialog(
             title: const Text('Uyarı'),
-            content: const Text('Lütfen girdiğiniz cümlenin karşılığını da ekleyin'),
+            content:
+                const Text('Lütfen girdiğiniz cümlenin karşılığını da ekleyin'),
             actions: [
               TextButton(
                 onPressed: () {
@@ -162,9 +166,9 @@ class _AddWordManualState extends State<AddWordManual> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  const Text(
+                  Text(
                     'Resim Seç',
-                    style: TextStyle(color: Colors.black),
+                    style: CustomStyles.blackAndBoldTextStyleM,
                   ),
                   ElevatedButton(
                     onPressed: _pickImage,
@@ -179,7 +183,8 @@ class _AddWordManualState extends State<AddWordManual> {
                     _image!,
                     width: 100,
                     height: 100,
-                    errorBuilder: (BuildContext context, Object exception, StackTrace? stackTrace) {
+                    errorBuilder: (BuildContext context, Object exception,
+                        StackTrace? stackTrace) {
                       return const Text('Resim yüklenemedi');
                     },
                   ),

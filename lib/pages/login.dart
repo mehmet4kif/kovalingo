@@ -1,26 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:kovalingo/pages/signup.dart';
-import 'main_menu.dart';
-import 'package:kovalingo/main.dart';
+import '../constants/styles.dart';
+import 'signup.dart';
 import 'package:sign_in_button/sign_in_button.dart';
 import 'package:nice_buttons/nice_buttons.dart';
-
-String _translateFirebaseError(String errorCode) {
-  switch (errorCode) {
-    case "invalid-email":
-      return "Geçersiz e-posta adresi formatı.";
-    case "user-disabled":
-      return "Kullanıcı hesabı devre dışı bırakıldı.";
-    case "user-not-found":
-      return "Kullanıcı bulunamadı.";
-    case "wrong-password":
-      return "Yanlış şifre.";
-    // Diğer hata durumları için gerekirse switch case ekleyebilirsiniz
-    default:
-      return "Bir hata oluştu. Lütfen tekrar deneyin.";
-  }
-}
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -43,7 +26,7 @@ class SignInScreen extends StatelessWidget {
 
   final TextEditingController _emailController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  String backgroundImage = "lib/assets/images/blob-scene-haikei.png";
+  String backgroundImage = "assets/images/blob-scene-haikei.png";
 
   @override
   Widget build(BuildContext context) {
@@ -74,58 +57,30 @@ class SignInScreen extends StatelessWidget {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.stretch,
                         children: [
-                          Padding(
-                            padding: const EdgeInsets.all(8.0),
+                          const Padding(
+                            padding: EdgeInsets.all(8.0),
                             child: Text(
                               'Giriş Yap',
-                              style: TextStyle(
-                                fontSize: 40,
-                                fontWeight: FontWeight.bold,
-                                fontFamily: 'Poppins',
-                              ),
+                              style: CustomStyles.headerStyle,
                             ),
                           ),
                           TextField(
                             controller: _emailController,
-                            decoration: InputDecoration(
+                            decoration: CustomStyles.inputDecoration(
                               labelText: 'E-mail',
-                              filled: true,
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20, 15, 0, 15),
-                              icon: Icon(Icons.email_outlined),
-                              border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.teal, width: 40),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade200, width: 3),
-                              ),
+                              icon: Icons.email_outlined,
                             ),
                           ),
-                          SizedBox(height: 10),
+                          const SizedBox(height: 10),
                           TextField(
                             controller: _passwordController,
-                            decoration: InputDecoration(
+                            decoration: CustomStyles.inputDecoration(
                               labelText: 'Şifre',
-                              filled: true,
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(20, 15, 0, 15),
-                              icon: Icon(Icons.lock_outline),
-                              border: OutlineInputBorder(
-                                borderSide:
-                                    BorderSide(color: Colors.teal, width: 40),
-                              ),
-                              enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(20),
-                                borderSide: BorderSide(
-                                    color: Colors.teal.shade200, width: 3),
-                              ),
+                              icon: Icons.lock_outline,
                             ),
                             obscureText: true,
                           ),
-                          SizedBox(height: 16),
+                          const SizedBox(height: 16),
                           SignInButton(
                             Buttons.email,
                             text: "E-mail İle Giriş Yap",
@@ -137,7 +92,7 @@ class SignInScreen extends StatelessWidget {
                     ),
                   ),
                 ),
-                SizedBox(height: 20),
+                const SizedBox(height: 20),
                 Card(
                   elevation: 8,
                   shape: RoundedRectangleBorder(
@@ -152,11 +107,10 @@ class SignInScreen extends StatelessWidget {
                         Center(
                           child: Text(
                             'Hesabın yok mu?',
-                            style:
-                                TextStyle(fontFamily: 'Poppins', fontSize: 13),
+                            style: CustomStyles.blackAndBoldTextStyleM,
                           ),
                         ),
-                        SizedBox(height: 8),
+                        const SizedBox(height: 8),
                         NiceButtons(
                           stretch: true,
                           gradientOrientation: GradientOrientation.Horizontal,
@@ -167,16 +121,12 @@ class SignInScreen extends StatelessWidget {
                             Navigator.push(
                               context,
                               MaterialPageRoute(
-                                  builder: (context) => SignUpScreen()),
+                                  builder: (context) => const SignUpScreen()),
                             );
                           },
-                          child: Text(
+                          child: const Text(
                             'Kayıt Ol',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontFamily: 'Poppins',
-                            ),
+                            style: CustomStyles.buttonTextStyle,
                           ),
                         ),
                       ],

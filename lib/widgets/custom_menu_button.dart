@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:kovalingo/constants/colors.dart';
+import 'package:kovalingo/constants/styles.dart';
 
 class CustomMenuButton extends StatelessWidget {
   final String title;
@@ -36,11 +37,7 @@ class CustomMenuButton extends StatelessWidget {
               children: [
                 Text(
                   title,
-                  style: const TextStyle(
-                    fontSize: 16,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.black87,
-                  ),
+                  style: CustomStyles.blackAndBoldTextStyleM,
                 ),
               ],
             ),

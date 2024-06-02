@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:kovalingo/constants/styles.dart';
 
 class WordPackageButton extends StatelessWidget {
   final String text;
@@ -17,28 +18,13 @@ class WordPackageButton extends StatelessWidget {
       child: TextButton(
         onPressed: onTap,
         child: Container(
-          decoration: BoxDecoration(
-            color: Colors.grey.shade600,
-            borderRadius: BorderRadius.circular(12.0),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 4,
-                blurRadius: 5,
-                offset: const Offset(0, 3),
-              ),
-            ],
-          ),
+          decoration:CustomStyles.customCircularBorderContainerStyle,
           child: Center(
             child: Padding(
               padding: const EdgeInsets.all(8.0),
               child: Text(
                 text,
-                style: const TextStyle(
-                  color: Colors.white,
-                  fontWeight: FontWeight.w600,
-                  fontSize: 20,
-                ),
+                style: CustomStyles.whiteAndBoldTextStyleL,
               ),
             ),
           ),

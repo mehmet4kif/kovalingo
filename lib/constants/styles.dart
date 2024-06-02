@@ -10,6 +10,12 @@ class CustomStyles {
     fontSize: 18.0,
   );
 
+  static TextStyle whiteAndBoldTextStyleL = const TextStyle(
+    color: Colors.white,
+    fontWeight: FontWeight.w600,
+    fontSize: 20,
+  );
+
   static TextStyle blackTextStyleS = const TextStyle(
     color: Colors.black,
     fontSize: 24.0,
@@ -17,7 +23,6 @@ class CustomStyles {
 
   static TextStyle blackAndBoldTextStyleXl = const TextStyle(
       fontWeight: FontWeight.bold, color: Colors.black, fontSize: 24);
-
 
   static TextStyle blackAndBoldTextStyleXXl = const TextStyle(
       fontWeight: FontWeight.bold, color: Colors.black, fontSize: 48);
@@ -52,4 +57,45 @@ class CustomStyles {
       borderRadius: BorderRadius.circular(8.0),
     ),
   );
+
+  static final customCircularBorderContainerStyle = BoxDecoration(
+    color: Colors.grey.shade600,
+    borderRadius: BorderRadius.circular(12.0),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.grey.withOpacity(0.5),
+        spreadRadius: 4,
+        blurRadius: 5,
+        offset: const Offset(0, 3),
+      ),
+    ],
+  );
+
+  static const TextStyle headerStyle = TextStyle(
+  fontSize: 40,
+  fontWeight: FontWeight.bold,
+  fontFamily: 'Poppins',
+  );
+
+  static InputDecoration inputDecoration(
+  {required String labelText, required IconData icon}) {
+  return InputDecoration(
+  labelText: labelText,
+  contentPadding: const EdgeInsets.fromLTRB(20, 15, 0, 15),
+  icon: Icon(icon),
+  border: const OutlineInputBorder(
+  borderSide: BorderSide(color: Colors.teal, width: 40)),
+  enabledBorder: OutlineInputBorder(
+  borderRadius: BorderRadius.circular(20),
+  borderSide: BorderSide(color: Colors.teal.shade200, width: 1.5)),
+  );
+  }
+
+  static const TextStyle buttonTextStyle = TextStyle(
+  fontSize: 16,
+  fontFamily: 'Poppins',
+  );
+
+
+
 }
